@@ -1,0 +1,7 @@
+{% for t in trainers %}
+  Trainer: {{ t.name }}</br>
+  {% for p in t.pokedex.all %}
+    {{ forloop.counter }}. {{ p.name }}</br>
+  {% endfor %}
+  -------------------------</br>
+{% endfor %}
