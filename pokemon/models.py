@@ -9,13 +9,22 @@ class PokemonKind(models.Model):
     class Meta:
         db_table = 'PokemonKind'
 
+    def __str__(self):
+        return f'<PokemonKind {self.name}>'
+
 
 class Trainer(models.Model):
     name = models.TextField(blank=True, null=True)
     pokedex = models.ManyToManyField(PokemonKind, through='Pokemon')
 
+    favorite_pokemon = models.ForeignKey(
+        PokemonKind, models.SET_NULL, null=True, related_name='+')
+
     class Meta:
         db_table = 'Trainer'
+
+    def __str__(self):
+        return f'<Trainer {self.name}>'
 
 
 class Pokemon(models.Model):
@@ -35,3 +44,6 @@ class Pokemon(models.Model):
 
     class Meta:
         db_table = 'Pokemon'
+
+    def __str__(self):
+        return f'<Pokemon {self.pokemon_kind.name} {self.trainer.name}>'

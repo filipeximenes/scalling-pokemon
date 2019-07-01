@@ -1,6 +1,7 @@
-from IPython.core.display import display as idisplay, HTML
+from IPython.core import display as idisplay
 import pprint
 from django.template.loader import get_template
+from django.utils.html import escape
 from django.db import connection
 import timeit as pytimeit
 
@@ -10,13 +11,21 @@ def pretty(*args, **kwargs):
     pp.pprint(*args, **kwargs)
 
 
-def display(html):
-    idisplay(HTML(html))
+def display_html(html):
+    idisplay.display(idisplay.HTML(html))
 
 
-def show_template(template_name):
-    template = get_template(template_name)
-    pretty(template.template.source)
+def display_file(file_name):
+    with open(file_name, 'r') as f:
+        file = f.read()
+        idisplay.display(idisplay.HTML(f'<pre>{file}</pre>'))
+
+
+def display_template(template_name):
+    file_name = f'pokemon/templates/{template_name}'
+    with open(file_name, 'r') as f:
+        file = escape(f.read())
+        idisplay.display(idisplay.HTML(f'<pre>{file}</pre>'))
 
 
 def render(template_name, context, show=False):
@@ -25,7 +34,7 @@ def render(template_name, context, show=False):
     html = template.render(context=context)
 
     if show:
-        display(html)
+        display_html(html)
 
 
 def timeit(func):
