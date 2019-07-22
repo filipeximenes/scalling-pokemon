@@ -1,9 +1,12 @@
 {% for t in trainers %}
   <strong>Nome:</strong> {{ t.name }}</br>
+
   <strong>Pokemon Favorito:</strong> {{ t.favorite_pokemon.name }}</br>
+
   <strong>Lista de Pokemons:</strong></br>
   {% for p in t.pokemons.all %}
     {{ forloop.counter }}. {{ p.pokemon_kind.name }} (Lv. {{ p.pokelevel }})</br>
   {% endfor %}
+
   ---------------------------------------</br>
 {% endfor %}
